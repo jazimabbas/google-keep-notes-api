@@ -18,7 +18,7 @@ const STATUS_CODE: StatusCode = {
 
 interface MessageAndStatus {
   message: string;
-  statusCode: number;
+  statusCode?: number;
 }
 
 class AppError extends Error {

@@ -1,18 +1,16 @@
 import { Response } from "express";
-import { AppError, STATUS_CODE } from "./custom-errors";
+import { AppError, BadRequest, STATUS_CODE } from "./custom-errors";
 
 type options = {
-  logKey: string;
-  message: string;
+  logKey?: string;
+  message?: string;
 };
 
 export async function errorHandler(
   response: Response,
   error: any,
-  options: options = { logKey: "", message: "" }
-) {
-  const { logKey, message } = options;
-
+  { logKey, message }: options
+): Promise<Response> {
   let errorMessage = "internal server error";
   let statusCode = STATUS_CODE.INTERNAL_ERROR;
   if (error instanceof AppError) {
@@ -22,10 +20,11 @@ export async function errorHandler(
     errorMessage = "internal server error";
   }
 
-  if (logKey) {
+  if (logKey && !(error instanceof BadRequest)) {
+    // will use logging service like sentry or cloudwatch
     console.log(`Error (${logKey}): ${error}`);
   }
   return response.status(statusCode).json({
-    errorMessage,
+    error: errorMessage,
   });
 }

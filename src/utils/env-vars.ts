@@ -5,3 +5,7 @@ export const dbEnvVars = {
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT || 3306,
 };
+
+export const appEnvVars = {
+  jwtSecret: process.env.JWT_SECRET,
+};
