@@ -1,7 +1,7 @@
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from "typeorm";
 import NoteList from "./note-list";
 
-@Entity()
+@Entity({ name: "noteListItem" })
 export default class NoteListItem {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -15,6 +15,8 @@ export default class NoteListItem {
   @Column()
   order: number;
 
-  @ManyToOne(() => NoteList, (noteList) => noteList.noteListItem)
+  @ManyToOne(() => NoteList, (noteList) => noteList.noteItemList, {
+    onDelete: "CASCADE",
+  })
   noteList: NoteList;
 }

@@ -11,16 +11,18 @@ import {
 import NoteList from "./note-list";
 import NoteImage from "./note-image";
 import UserNote from "./user-note";
+import Theme from "./theme";
+import Collaborator from "./collaborator";
 
-@Entity()
+@Entity({ name: "note" })
 export default class Note {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ default: false })
-  hasItems: boolean;
+  @Column({ nullable: true })
+  title: string;
 
-  @Column()
+  @Column({ nullable: true })
   content: string;
 
   @Column({ default: false })
@@ -44,6 +46,12 @@ export default class Note {
   @OneToMany(() => NoteImage, (image) => image.note)
   images: NoteImage[];
 
-  @ManyToOne(() => UserNote, (userNote) => userNote.notes)
-  userNote: UserNote;
+  @OneToMany(() => UserNote, (userNote) => userNote.note)
+  userNote: UserNote[];
+
+  @ManyToOne(() => Theme, (theme) => theme.notes, { onDelete: "SET NULL" })
+  theme: Theme;
+
+  @OneToMany(() => Collaborator, (collaborator) => collaborator.note)
+  collaborators: Collaborator[];
 }

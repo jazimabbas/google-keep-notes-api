@@ -8,7 +8,7 @@ import {
 import Note from "./note";
 import NoteListItem from "./note-list-item";
 
-@Entity()
+@Entity({ name: "noteList" })
 export default class NoteList {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -22,9 +22,12 @@ export default class NoteList {
   @Column({ default: false })
   isCompleted: boolean;
 
-  @ManyToOne(() => Note, (note) => note.noteList)
+  @Column({ default: false })
+  hasItems: boolean;
+
+  @ManyToOne(() => Note, (note) => note.noteList, { onDelete: "CASCADE" })
   note: Note;
 
   @OneToMany(() => NoteListItem, (noteListItem) => noteListItem.noteList)
-  noteListItem: NoteListItem[];
+  noteItemList: NoteListItem[];
 }

@@ -3,6 +3,7 @@ import { ApiError } from "./errors/custom-errors";
 import jwt from "jsonwebtoken";
 import { appEnvVars } from "@/utils/env-vars";
 import { User } from "@/db/entities";
+import multer from "multer";
 
 export const createHashPassword = async (password: string): Promise<string> => {
   try {
@@ -50,3 +51,18 @@ export const generateToken = async (user: User): Promise<string> => {
     });
   }
 };
+
+const fileFilter = async (req: any, file: any, cb: any) => {
+  if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+    cb(null, true);
+  } else {
+    cb(new Error("only png and jpeg formats are allowed"), false);
+  }
+};
+
+const storage = multer.memoryStorage();
+export const upload = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 * 5 }, // limiting file size to 5mb
+  fileFilter: fileFilter,
+});

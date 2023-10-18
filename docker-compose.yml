@@ -1,15 +1,28 @@
-version: '3'
+version: "3"
 
 services:
   db:
     image: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=somepassword
-      - MYSQL_DATABASE=keep-notes
+      - MYSQL_ROOT_PASSWORD=523221
+      - MYSQL_DATABASE=google-keep-notes
     volumes:
-      - "keep-notes:/var/lib/mysql"
+      - "google-keep-notes:/var/lib/mysql"
     ports:
-      - "3306:3306"
+      - "3307:3306"
+
+  backend-app: # container name
+    image: google-keep-notes:1.0 # image name
+    ports:
+      - "8000:8000" # HOST:CONTAINER
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=google-keep-notes
+      - DB_USERNAME=root
+      - DB_PASSWORD=523221
+      - DB_PORT=3306
+      - JWT_SECRET=this is secret
+      - NODE_OPTIONS=-r tsconfig-paths/register
 
 volumes:
-  keep-notes:
+  google-keep-notes:

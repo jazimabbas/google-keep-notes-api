@@ -8,9 +8,10 @@ const dataSource = new DataSource({
   username: dbEnvVars.username,
   password: dbEnvVars.password,
   port: +dbEnvVars.port,
-  synchronize: true,
-  database: "google-keep-notes",
+  synchronize: false,
+  database: dbEnvVars.database,
   entities: [path.join(__dirname, "./entities/**/*.{ts,js}")],
+  migrations: [path.join(__dirname, "./migrations/**/*.{ts,js}")],
 });
 
 export default dataSource;

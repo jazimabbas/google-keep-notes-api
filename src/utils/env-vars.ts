@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const dbEnvVars = {
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
@@ -8,4 +11,10 @@ export const dbEnvVars = {
 
 export const appEnvVars = {
   jwtSecret: process.env.JWT_SECRET,
+};
+
+export const awsEnvVars = {
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  bucketName: process.env.BUCKET_NAME,
 };
